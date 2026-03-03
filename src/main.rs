@@ -12,7 +12,7 @@ fn main() {
     println!("{}", "=== Metin Arama Aracı ===".bright_cyan().bold());
     
     // Sabit klasör yolu
-    let folder_path = r"C:\Users\Lunix\Documents\Breaches";
+    let folder_path = r"C:\Users\Lunix\Documents\Breach";
     
     // Aranacak metni al
     println!("\n{}", "Aranacak metni girin:".yellow());
@@ -122,8 +122,12 @@ fn main() {
             };
             
             // Dosya adını kısalt (max 35 karakter)
-            let display_name = if file_name.len() > 35 {
-                format!("{}...", &file_name[..32])
+            let display_name = if file_name.chars().count() > 35 {
+                let end = file_name.char_indices()
+                    .nth(32)
+                    .map(|(i, _)| i)
+                    .unwrap_or(file_name.len());
+                format!("{}...", &file_name[..end])
             } else {
                 file_name
             };
