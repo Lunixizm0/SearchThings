@@ -25,8 +25,8 @@ struct Cli {
     #[arg(long)]
     regex: bool,
 
-    /// Dosya uzantıları (virgülle ayrılmış, ör: txt,log,md)
-    #[arg(short, long, default_value = "txt")]
+    /// Dosya uzantıları
+    #[arg(short = 'e', long, default_value = "txt")]
     pattern: String,
 
     /// Maksimum sonuç sayısı

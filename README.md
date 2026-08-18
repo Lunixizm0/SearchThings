@@ -15,6 +15,7 @@ Paralel dosya arama aracı. Dizinlerdeki dosyaları çoklu iş parçacığı ile
 ## Kurulum
 
 ```bash
+cargo update
 cargo install --path .
 ```
 
@@ -33,22 +34,22 @@ search-things
 ```bash
 search-things --path /home/user/docs --search "error"
 search-things -p /home/user/docs -s "error" --regex
-search-things -p /home/user/docs -s "TODO" -p "rs,toml"
+search-things -p /home/user/docs -s "TODO" -e "rs,toml"
 search-things -p /home/user/docs -s "fixme" --case-sensitive --max-results 10
 search-things -p /home/user/docs -s "test" --quiet
 ```
 
 ## Seçenekler
 
-| Seçenek | Açıklama |
-|---|---|
-| `-p, --path` | Aranacak klasör yolu |
-| `-s, --search` | Aranacak metin |
-| `--case-sensitive` | Büyük/küçük harf duyarlı |
-| `--regex` | Regex deseni kullan |
-| `-f, --pattern` | Dosya uzantıları (virgülle ayrılmış, varsayılan: txt) |
-| `-m, --max-results` | Maksimum sonuç sayısı |
-| `-q, --quiet` | Sessiz mod (progress bar yok) |
+| Seçenek             | Açıklama                                              |
+| ------------------- | ----------------------------------------------------- |
+| `-p, --path`        | Aranacak klasör yolu                                  |
+| `-s, --search`      | Aranacak metin                                        |
+| `--case-sensitive`  | Büyük/küçük harf duyarlı                              |
+| `--regex`           | Regex deseni kullan                                   |
+| `-e, --pattern`     | Dosya uzantıları (virgülle ayrılmış, varsayılan: txt) |
+| `-m, --max-results` | Maksimum sonuç sayısı                                 |
+| `-q, --quiet`       | Sessiz mod (progress bar yok)                         |
 
 ## Geliştirme
 
