@@ -28,7 +28,12 @@ pub fn collect_files(folder_path: &str, file_pattern: &Option<String>) -> Vec<(P
         .as_ref()
         .map(|p| {
             p.split(',')
-                .map(|s| s.trim().trim_start_matches('*').trim_start_matches('.').to_string())
+                .map(|s| {
+                    s.trim()
+                        .trim_start_matches('*')
+                        .trim_start_matches('.')
+                        .to_string()
+                })
                 .collect()
         })
         .unwrap_or_else(|| vec!["txt".to_string()]);
@@ -45,9 +50,7 @@ pub fn collect_files(folder_path: &str, file_pattern: &Option<String>) -> Vec<(P
         })
         .filter_map(|e| {
             let path = e.path().to_path_buf();
-            std::fs::metadata(&path)
-                .ok()
-                .map(|m| (path, m.len()))
+            std::fs::metadata(&path).ok().map(|m| (path, m.len()))
         })
         .collect()
 }

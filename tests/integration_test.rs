@@ -1,4 +1,4 @@
-use search_things::{collect_files, run_search, SearchConfig};
+use search_things::{SearchConfig, collect_files, run_search};
 use std::fs;
 use tempfile::TempDir;
 
@@ -8,9 +8,17 @@ fn setup_test_dir() -> TempDir {
 
     // Various text files
     fs::write(base.join("hello.txt"), "Hello World\nfoo bar\nHello Rust\n").unwrap();
-    fs::write(base.join("data.txt"), "test data\nanother line\nfoo bar baz\n").unwrap();
+    fs::write(
+        base.join("data.txt"),
+        "test data\nanother line\nfoo bar baz\n",
+    )
+    .unwrap();
     fs::write(base.join("empty.txt"), "").unwrap();
-    fs::write(base.join("log.txt"), "ERROR: something failed\nINFO: all good\nERROR: again\n").unwrap();
+    fs::write(
+        base.join("log.txt"),
+        "ERROR: something failed\nINFO: all good\nERROR: again\n",
+    )
+    .unwrap();
 
     // Non-text file (should be ignored by default)
     fs::write(base.join("image.bin"), "not a text file").unwrap();

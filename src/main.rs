@@ -4,14 +4,10 @@ use std::process;
 use clap::Parser;
 use colored::*;
 
-use search_things::{run_search, SearchConfig};
+use search_things::{SearchConfig, run_search};
 
 #[derive(Parser)]
-#[command(
-    name = "SearchThings",
-    about = "Paralel dosya arama aracı",
-    version
-)]
+#[command(name = "SearchThings", about = "Paralel dosya arama aracı", version)]
 struct Cli {
     /// Aranacak klasör yolu
     #[arg(short, long)]
@@ -115,26 +111,18 @@ fn main() {
             println!("{}", format!("Sonuç #{}", index + 1).bright_black());
             println!(
                 "{}",
-                format!("Dosya: {}", result.file_path)
-                    .bright_blue()
-                    .bold()
+                format!("Dosya: {}", result.file_path).bright_blue().bold()
             );
             println!("{}", format!("Satır: {}", result.line_number).yellow());
-            println!(
-                "{}",
-                format!("İçerik: {}", result.line_content).white()
-            );
+            println!("{}", format!("İçerik: {}", result.line_content).white());
             println!();
         }
 
         println!(
             "{}",
-            format!(
-                "Arama tamamlandı! {} eşleşme bulundu.",
-                results.len()
-            )
-            .bright_green()
-            .bold()
+            format!("Arama tamamlandı! {} eşleşme bulundu.", results.len())
+                .bright_green()
+                .bold()
         );
     }
 }
