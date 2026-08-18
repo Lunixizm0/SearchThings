@@ -9,10 +9,23 @@ use walkdir::WalkDir;
 use colored::*;
 
 fn main() {
-    println!("{}", "=== Metin Arama Aracı ===".bright_cyan().bold());
+    println!("{}", "SearchThings".bright_cyan().bold());
     
-    // Sabit klasör yolu
-    let folder_path = r"C:\Users\Lunix\Documents\Breach";
+    // Klasör yolu al
+    println!("\n{}", "Klasör yolunu girin:".yellow());
+    let mut folder_path = String::new();
+    io::stdin().read_line(&mut folder_path).expect("Okuma hatası");
+    let folder_path = folder_path.trim();
+    
+    if folder_path.is_empty() {
+        println!("{}", "Klasör yolu boş olamaz".red());
+        return;
+    }
+    
+    if !Path::new(folder_path).is_dir() {
+        println!("{}", format!("'{}' geçerli bir klasör değil", folder_path).red());
+        return;
+    }
     
     // Aranacak metni al
     println!("\n{}", "Aranacak metni girin:".yellow());
@@ -41,11 +54,11 @@ fn main() {
     let total_files = txt_files.len();
     let total_size: u64 = txt_files.iter().map(|(_, size)| size).sum();
     
-    println!("{}", format!("📊 Toplam {} txt dosyası bulundu", total_files).cyan());
-    println!("{}", format!("💾 Toplam boyut: {}\n", format_size(total_size)).cyan());
+    println!("{}", format!("Toplam {} txt dosyası bulundu", total_files).cyan());
+    println!("{}", format!("Toplam boyut: {}\n", format_size(total_size)).cyan());
     
     if total_files == 0 {
-        println!("{}", "Hiç txt dosyası bulunamadı!".red());
+        println!("{}", "Hiç txt dosyası bulunamadı".red());
         return;
     }
     
@@ -132,7 +145,7 @@ fn main() {
                 file_name
             };
             
-            print!("\r{} [{}/{}] {} {}/{} | 📄 {} | ⚡ {}/s | 📊 Ort: {}/s | ⏱️ Kalan: {}{}",
+            print!("\r{} [{}/{}] {} {}/{} | {} | {}/s | Ort: {}/s | Kalan: {}{}",
                 bar,
                 files_done,
                 total_files,
@@ -178,21 +191,21 @@ fn main() {
     io::stdout().flush().unwrap();
     
     // Sonuçları göster
-    println!("\n{}", "=== SONUÇLAR ===".bright_green().bold());
-    println!("{}", format!("🎯 Toplam {} eşleşme bulundu\n", results.len()).bright_yellow());
+    println!("\n{}", "Sonuçlar".bright_green().bold());
+    println!("{}", format!("Toplam {} eşleşme bulundu\n", results.len()).bright_yellow());
     
     if results.is_empty() {
-        println!("{}", "❌ Hiç eşleşme bulunamadı.".red());
+        println!("{}", "Hiç eşleşme bulunamadı.".red());
     } else {
         for (index, result) in results.iter().enumerate() {
-            println!("{}", format!("━━━ Sonuç #{} ━━━", index + 1).bright_black());
-            println!("{}", format!("📁 Dosya: {}", result.file_path).bright_blue().bold());
-            println!("{}", format!("📍 Satır: {}", result.line_number).yellow());
-            println!("{}", format!("📝 İçerik: {}", result.line_content).white());
+            println!("{}", format!("Sonuç #{}", index + 1).bright_black());
+            println!("{}", format!("Dosya: {}", result.file_path).bright_blue().bold());
+            println!("{}", format!("Satır: {}", result.line_number).yellow());
+            println!("{}", format!("İçerik: {}", result.line_content).white());
             println!();
         }
         
-        println!("{}", format!("✅ Arama tamamlandı! {} eşleşme bulundu.", results.len()).bright_green().bold());
+        println!("{}", format!("Arama tamamlandı! {} eşleşme bulundu.", results.len()).bright_green().bold());
     }
 }
 
@@ -212,7 +225,7 @@ fn search_in_file(path: &Path, search_text: &str) -> Vec<SearchResult> {
         Err(_) => return results,
     };
     
-    // Encoding'i algıla ve okuyucu oluştur
+    // Encodingi algıla ve okuyucu oluştur
     let reader = match create_reader(file) {
         Ok(r) => r,
         Err(_) => return results,
@@ -236,7 +249,7 @@ fn search_in_file(path: &Path, search_text: &str) -> Vec<SearchResult> {
 }
 
 fn create_reader(file: fs::File) -> io::Result<BufReader<impl std::io::Read>> {
-    // Encoding algılayıcı oluştur - UTF-8, UTF-16, Windows-1252 vb. destekler
+    // Encoding algılayıcı oluştur
     let decoder = DecodeReaderBytesBuilder::new()
         .build(file);
     
